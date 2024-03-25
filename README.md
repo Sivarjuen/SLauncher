@@ -1,4 +1,8 @@
-# Tauri + Leptos
+# SLauncher
+
+Run locally with `cargo tauri dev`
+
+## Tauri + Leptos
 
 This template should help get you started developing with Tauri and Leptos.
 
