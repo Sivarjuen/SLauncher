@@ -1,3 +1,9 @@
 /dist/
 /target/
 /Cargo.lock
+.idea
+css/output.css
+node_modules/
+.vscode/
+package-lock.json
+todo.md

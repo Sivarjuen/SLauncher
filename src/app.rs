@@ -1,7 +1,5 @@
-use leptos::leptos_dom::ev::SubmitEvent;
 use leptos::*;
 use serde::{Deserialize, Serialize};
-use serde_wasm_bindgen::to_value;
 use wasm_bindgen::prelude::*;
 
 #[wasm_bindgen]
@@ -17,42 +15,24 @@ struct GreetArgs<'a> {
 
 #[component]
 pub fn App() -> impl IntoView {
-    let (name, set_name) = create_signal(String::new());
-    let (greet_msg, set_greet_msg) = create_signal(String::new());
-
-    let update_name = move |ev| {
-        let v = event_target_value(&ev);
-        set_name.set(v);
-    };
-
-    let greet = move |ev: SubmitEvent| {
-        ev.prevent_default();
-        spawn_local(async move {
-            let name = name.get_untracked();
-            if name.is_empty() {
-                return;
-            }
-
-            let args = to_value(&GreetArgs { name: &name }).unwrap();
-            // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-            let new_msg = invoke("greet", args).await.as_string().unwrap();
-            set_greet_msg.set(new_msg);
-        });
-    };
+    let (count, set_count) = create_signal(0);
 
     view! {
-        <main class="container">
-
-            <form class="row" on:submit=greet>
-                <input
-                    id="greet-input"
-                    placeholder="Enter a name..."
-                    on:input=update_name
-                />
-                <button type="submit">"Greet"</button>
-            </form>
-
-            <p><b>{ move || greet_msg.get() }</b></p>
+        <main class="flex flex-col justify-center bg-gray-800 text-white p-6 m-0 text-center h-screen">
+            <h2 class="pb-6 text-4xl">"Welcome to Leptos with Tailwind"</h2>
+            <p class="px-10 pb-10">"Tailwind will scan your Rust files for Tailwind class names and compile them into a CSS file."</p>
+            <button
+                class="bg-amber-600 hover:bg-sky-700 px-5 py-3 text-white rounded-lg"
+                on:click=move |_| set_count.update(|count| *count += 1)
+            >
+                "Something's here | "
+                {move || if count.get() == 0 {
+                    "Click me!".to_string()
+                } else {
+                    count.get().to_string()
+                }}
+                " | Some more text"
+            </button>
         </main>
     }
 }
