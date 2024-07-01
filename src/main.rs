@@ -1,6 +1,7 @@
 mod app;
+mod components;
 
-use app::*;
+use crate::app::App;
 use leptos::*;
 
 fn main() {
