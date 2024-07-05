@@ -1,5 +1,6 @@
 mod app;
 mod components;
+mod module;
 
 use crate::app::App;
 use leptos::*;
